@@ -1,0 +1,134 @@
+GET http://localhost:5050/
+
+###
+POST http://localhost:5050/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "test335",
+  "role": "admin"
+}
+
+###
+POST http://localhost:5050/refreshtoken
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY5NDE2MjM3OSwiZXhwIjoxNjk0MTYyMzg5fQ.OHesY4v091kNS6OHBOn2tHRZLnHvCkMNrAehJayWxBc"
+}
+
+
+###
+POST http://localhost:5050/register
+Content-Type: application/json
+
+{
+  "firstName": "Admin",
+  "lastName": "",
+  "email": "admin1@gmail.com",
+  "password": "test335",
+  "role": "admin"
+}
+
+### User
+POST http://localhost:5050/register
+Content-Type: application/json
+
+{
+  "firstName": "ohn",
+  "lastName": "mar",
+  "email": "user1@gmail.com",
+  "password": "test335"
+}
+
+###
+GET http://localhost:5050/api/v1/quiz/
+Content-Type: application/json
+
+{
+  "category": "Javascript"
+}
+
+###
+GET http://localhost:5050/api/v1/64fe8b354d9e59418c9258be
+Content-Type: application/json
+
+###
+POST http://localhost:5050/api/v1/quiz
+Content-Type: application/json
+
+{
+  "category": "65017f1f25b9202e7a5b3ab5",
+  "level": "Beginner",
+  "question": "Which is the most beautiful Capital City?",
+  "answers": ["Paris", "London", "Berlin", "Madrid"],
+  "correct_answer": "Paris"
+}
+
+###
+POST http://localhost:5050/api/v1/quiz
+Content-Type: application/json
+
+{
+  "category": "65017f1f25b9202e7a5b3ab5",
+  "level": "Beginner",
+  "question": "What is the largest country in the world3?",
+  "answers": ["Russia", "Canada", "China", "USA"],
+  "correct_answer": "Russia"
+}
+
+###
+POST http://localhost:5050/api/v1/quiz
+Content-Type: application/json
+
+{
+  "category": "Web Developer",
+  "level": "Beginner",
+  "question": "What is the currency of England?",
+  "answers": ["Yen", "Doallar", "Euro", "Pound"],
+  "correct_answer": "Yen"
+}
+
+###
+PATCH http://localhost:5050/api/v1/quiz/64fed1dd176401fde21c5f93
+Content-Type: application/json
+
+{
+  "category": "65017f1f25b9202e7a5b3ab5",
+  "level": "Beginner",
+  "question": "What is the currency of United States?",
+  "answers": ["Yen", "Doallar", "Euro", "Pound"],
+  "correct_answer": "Dollar"
+}
+
+###
+DELETE http://localhost:5050/api/v1/quiz/64fed1dd176401fde21c5f93
+Content-Type: application/json
+
+###
+GET http://localhost:5050/api/v1/category/
+
+###
+POST http://localhost:5050/api/v1/category/
+Content-Type: application/json
+
+{
+  "category": "PHP"
+}
+
+###
+PATCH http://localhost:5050/api/v1/category/6503e40d607d904bb0320944
+Content-Type: application/json
+
+{
+  "category": "CSS"
+}
+
+###
+DELETE http://localhost:5050/api/v1/category/6503cc10e6caeb25f37613dd
+Content-Type: application/json
+
+
+### Client server
+GET http://localhost:3000/admin/
