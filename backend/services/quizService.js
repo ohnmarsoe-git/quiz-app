@@ -2,7 +2,6 @@ import { Quiz } from '../models/Quiz.js';
 
 const getAll = async () => {
   const allResults = await Quiz.find().populate('category').exec();
-  console.log(allResults);
   return allResults;
 }
 

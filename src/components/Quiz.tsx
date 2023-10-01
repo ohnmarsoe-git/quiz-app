@@ -1,46 +1,8 @@
 import React, {FC, useEffect, useState, useReducer} from 'react'
-import { Questions } from '../types/types'
+import { Questions, Category } from '../types/types'
 import Question from './Question'
 import Answertime from './Answertime'
 import useCommonApi from '../hooks/useCommonApi'
-
-
-interface State {
-  data: Questions[],
-  // currentQuestion: number,
-  // correctAnswer: number
-}
-
-interface Action {
-  type: "LOAD_QUESTIONS" | "ANSWER_QUESTION" | "CHECK_ANSWER" | "RESET_QUIZ";
-  payload?: any;
-}
-
-function reducer(state: State, action: Action): State {
-  console.log(state);
-  console.log(action.payload);
-  switch(action.type) {
-    case "LOAD_QUESTIONS": 
-      return {
-        ...state,
-        data: action.payload
-      }
-    case "CHECK_ANSWER": {
-      console.log(state);
-      return state
-    }
-    case "RESET_QUIZ":
-      return {
-        //@ts-ignore
-        ...initialState,
-    };
-    default:
-      console.log(state);
-      return state
-  }
-}
-
-
 
 const Quiz:FC = () => {
 
@@ -48,70 +10,55 @@ const Quiz:FC = () => {
  
   const { data, isLoading, error } = useCommonApi<Questions>('/api/v1/quiz', 'GET')
 
-
-  //@ts-ignore
-  const [state, dispatch] = useReducer<typeof reducer,State>( reducer, {data});
-
-  //@ts-ignore
-  console.log(state?.data);
-
-  const handleClick = () => {
-    
-  }
-
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [finish, setFinish] = useState(false);
   const [nextQuestion, setNextQuestion] = useState(0);
   const [showTimer, setShowTimer] = useState(true);
 
-  // if(data?.length) {
-  //   count = data?.length;
-  // }
+  if(data?.length) {
+    count = data?.length;
+  }
 
+  const handleCheckAnswer = () => {
+    if( nextQuestion === count - 1 ) {
+      setFinish(true);
+    }
+  }
 
-  // const handleCheckAnswer = () => {
-  //   if( nextQuestion === count - 1 ) {
-  //     setFinish(true);
-  //   }
-  // }
+  const handleAnswer = (answer: string) => {
 
-  // const handleAnswer = (answer: string) => {
-
-  //   //@ts-ignore
-  //   dispatch({type: "LOAD_QUESTIONS", payload: data[currentQuestion].question})
+    //@ts-ignore
+    // dispatch({type: "LOAD_QUESTIONS", payload: data[currentQuestion].question})
     
-  //   //@ts-ignore
-  //   dispatch({ type: "CHECK_ANSWER" })
+    // //@ts-ignore
+    // dispatch({ type: "CHECK_ANSWER" })
 
-  //   setFinish(false);
-  //   setShowTimer(false);
+    setFinish(false);
+    setShowTimer(false);
 
-  //   if( answer && answer === data?.[currentQuestion].correct_answer) {
-  //     setScore(score + 1);
-  //   }
+    if( answer && answer === data?.[currentQuestion].correct_answer) {
+      setScore(prev => prev + 1);
+    }
 
-  //   const next = currentQuestion + 1;
-  //   if( nextQuestion < count) {
-  //     setCurrentQuestion(next);
-  //     setNextQuestion(next);
-  //   }
+    if( nextQuestion < count) {
+      setCurrentQuestion(prev => prev + 1);
+      setNextQuestion(prev => prev + 1);
+    }
 
-  //   if( nextQuestion === count - 1) {
-  //     setFinish(true);
-  //   }
+    if( nextQuestion === count - 1) {
+      setFinish(true);
+    }
 
-  //   setTimeout(() => {
-  //     setShowTimer(true);
-  //   })
+    setTimeout(() => {
+      setShowTimer(true);
+    })
     
-  // }
+  }
 
   // const countQuestions = () => {
   //   if (currentQuestion === data?.length) {
-
   //     return currentQuestion;
-
   //   } else if (currentQuestion > 0) {
   //     return currentQuestion + 1;
   //   } else {
@@ -119,21 +66,81 @@ const Quiz:FC = () => {
   //   }
   // }
 
-  // const handleTimeUp = () => {
-  //   setScore(score + 0);
-  //   handleAnswer('');
-  // }
+  const handleTimeUp = () => {
+    setScore(prev => prev + 0);
+    handleAnswer('');
+  }
 
-  // const scroeCal = () => {
-  //   if(score === 0) {
-  //     return 'Failed!'
-  //   } else {
-  //     return 'Congrats!'
-  //   }
-  // }
+  const scroeCal = () => {
+    if(score === 0) {
+      return 'Failed!'
+    } else {
+      return 'Congrats!'
+    }
+  }
   
   return (
-    <><div onClick={handleClick}>Click</div></>
+    <div  className='max-w-screen-xl mx-auto mt-20'>
+      <div className='bg-slate-100 rounded shadow border-solid border-slate-500 mt-52'>
+        <h2 className='p-3 text-2xl font-bold bg-slate-500 text-slate-50'>{ data?.[currentQuestion].category?.category.toUpperCase() }</h2>
+          { showTimer && !finish && <Answertime duration={10} onTimeUp={handleTimeUp} />  }
+          <div className={`md:mx-0 ml-0 text-left p-5 ${finish ? 'hidden' : 'block' } `}>
+            <div className='mx-0 mr-0 text-right text-2xl font-medium my-5'>Q: { currentQuestion + 1 } / { count }</div>
+              
+              { nextQuestion < count ?
+                  (
+                    <>
+                      <Question 
+                        question = {data?.[currentQuestion].question}
+                        answers  = {data?.[currentQuestion].answers}
+                        correct_answer = {data?.[currentQuestion].correct_answer}
+                        onAnswer = {() => {}}
+                      />
+
+                    <div className='flex justify-between'>
+                      <p>Level : { data?.[currentQuestion].level}</p>
+                      {
+                        nextQuestion === count - 1 ? 
+                        (
+                          <button 
+                          className= 'cursor-allowed hover:bg-blue-800 bg-blue-500 text-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2'
+                          onClick={handleCheckAnswer}> Finish
+                          </button>
+                        ):
+                        (
+                          <button 
+                          className= 'cursor-allowed hover:bg-blue-800 bg-blue-500 text-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2'
+                          onClick={
+                            //@ts-ignore
+                            () => handleAnswer(data?.[currentQuestion].correct_answer)
+                            }> Next
+                          </button>
+                        )
+                      }
+                  </div>
+
+                    </>
+                  ): (
+                    <div className='mx-auto text-center font-bold'> Well done! Check your final score</div>
+                  )
+
+                  
+              } 
+
+                
+
+            </div>
+
+            { finish && (
+                <div className='mx-auto mt-5 mb-10'>
+                  <h2 className='text-center text-2xl font-blod text-slate-950 uppercase pb-5'>
+                    {scroeCal()}
+                  </h2>
+                  <p className='text-center pb-10'>  You got {score} out of { count }</p>
+                </div>
+            ) }
+          </div>
+    </div>
   )
 }
 

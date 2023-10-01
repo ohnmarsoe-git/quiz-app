@@ -29,7 +29,6 @@ const createNewOne = (addNew) => {
   let isAleradyCategory = isFilterCategory(addNew.category, DB);
 
   if(isAleradyCategory.length > 0 ) {
-    console.log(1);
     const updatedArray = data.map( (d) => {
       if(d.category === addNew.category) {
         // d.questions.push(...newQuestion)
@@ -41,7 +40,6 @@ const createNewOne = (addNew) => {
     })
     saveToDabase(updatedArray);
   } else {
-    console.log(2);
     const updatedArray = [...data, newgroupQuestion ];
     saveToDabase(updatedArray);
     return updatedArray;

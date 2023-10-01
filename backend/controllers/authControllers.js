@@ -18,8 +18,6 @@ const refreshToken = (req, res) => {
   if(token === null) return res.status(401).json({message:'You are not authenicated!'})
 
   jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-
-    console.log(err);
     
     if(err) return res.status(403).json({message: err.message});
    

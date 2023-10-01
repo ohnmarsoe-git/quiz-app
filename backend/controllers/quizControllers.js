@@ -30,7 +30,6 @@ const getCategory = async (req, res) => {
 
   try{
     const results = await services.getCategory();
-    console.log(results);
     res.status(200).send({status: "success", data: results});
   } catch (errors) {
     const error = handleErrors(errors);

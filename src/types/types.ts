@@ -6,11 +6,17 @@ export interface Quiz {
   questions: Questions[];
 }
 
+export type Category = {
+  __id: string
+  category: string,
+  __v?: string
+}
+
 
 export interface Question {
   _id: string;
   question: string;
-  category: string;
+  category: Category;
   level: string;
   answers: string[];
   correct_answer: string
@@ -19,7 +25,7 @@ export interface Question {
 export interface Questions {
   _id: string;
   question: string;
-  category: string;
+  category: Category;
   level: string;
   answers: string[];
   correct_answer: string;
