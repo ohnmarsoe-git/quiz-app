@@ -7,7 +7,7 @@ const signToken = ( id ) => {
 }
 
 const generateRefreshToken = (id) => {
-  return jwt.sign( { id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "24h" });
+  return jwt.sign( { id }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "1h" });
 }
 
 export {

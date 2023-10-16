@@ -4,6 +4,7 @@ import Question from './Question'
 import Answertime from './Answertime'
 import useCommonApi from '../hooks/useCommonApi'
 
+
 const Quiz:FC = () => {
 
   let count = 0;
@@ -82,7 +83,9 @@ const Quiz:FC = () => {
   return (
     <div  className='max-w-screen-xl mx-auto mt-20'>
       <div className='bg-slate-100 rounded shadow border-solid border-slate-500 mt-52'>
-        <h2 className='p-3 text-2xl font-bold bg-slate-500 text-slate-50'>{ data?.[currentQuestion].category?.category.toUpperCase() }</h2>
+        
+          <h2 className='p-3 text-2xl font-bold bg-slate-500 text-slate-50'>{  showTimer && !finish ?  data?.[currentQuestion].category?.category.toUpperCase() : 'Finish' }</h2>
+         
           { showTimer && !finish && <Answertime duration={10} onTimeUp={handleTimeUp} />  }
           <div className={`md:mx-0 ml-0 text-left p-5 ${finish ? 'hidden' : 'block' } `}>
             <div className='mx-0 mr-0 text-right text-2xl font-medium my-5'>Q: { currentQuestion + 1 } / { count }</div>
@@ -123,12 +126,8 @@ const Quiz:FC = () => {
                   ): (
                     <div className='mx-auto text-center font-bold'> Well done! Check your final score</div>
                   )
-
                   
-              } 
-
-                
-
+              }
             </div>
 
             { finish && (

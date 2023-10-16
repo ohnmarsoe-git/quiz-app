@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useCookies } from 'react-cookie';
-import AuthContext from '../context/authProvider'
+import AuthContext from '../../context/authProvider'
 import { Navigate, Outlet, redirect } from 'react-router-dom';
 
 

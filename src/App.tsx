@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import './index.css'
 import './App.css';
-import { AuthProvider } from './admin/context/authProvider';
+import { AuthProvider } from './context/authProvider';
 import { CookiesProvider } from 'react-cookie';
 import AdminLayout from './admin/pages/AdminLayout';
 import Layout from './pages/Layout';

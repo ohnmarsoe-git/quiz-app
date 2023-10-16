@@ -7,7 +7,8 @@ Content-Type: application/json
 {
   "email": "admin@gmail.com",
   "password": "test335",
-  "role": "admin"
+  "role": "admin",
+  "loginType": "email"
 }
 
 ###
@@ -15,23 +16,22 @@ POST http://localhost:5050/refreshtoken
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY5NDE2MjM3OSwiZXhwIjoxNjk0MTYyMzg5fQ.OHesY4v091kNS6OHBOn2tHRZLnHvCkMNrAehJayWxBc"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA4MzY2MCwiZXhwIjoxNjk3MDg3MjYwfQ.Vtrh1ju8_LH7ojYUtnCIZW034XoxV6UqYE4L4F1QhtE"
 }
-
 
 ###
 POST http://localhost:5050/register
 Content-Type: application/json
 
 {
-  "firstName": "Admin",
-  "lastName": "",
-  "email": "admin1@gmail.com",
+  "firstName": "Hello2",
+  "lastName": "World",
+  "email": "hello@gmail.com",
   "password": "test335",
-  "role": "admin"
+  "role": "user"
 }
 
-### User
+### User Sign
 POST http://localhost:5050/register
 Content-Type: application/json
 
@@ -41,6 +41,26 @@ Content-Type: application/json
   "email": "user1@gmail.com",
   "password": "test335"
 }
+
+###
+POST http://localhost:5050/gitLogin
+Content-Type: application/json
+
+{
+  "firstName": "ohn",
+  "lastName": "mar",
+  "email": "zen@gmail.com",
+  "password": "",
+  "loginType": ""
+}
+
+###
+GET http://localhost:5050/api/v1/user/
+Content-Type: application/json
+
+###
+GET http://localhost:5050/api/v1/user/count
+Content-Type: application/json
 
 ###
 GET http://localhost:5050/api/v1/quiz/
@@ -76,6 +96,15 @@ Content-Type: application/json
   "question": "What is the largest country in the world3?",
   "answers": ["Russia", "Canada", "China", "USA"],
   "correct_answer": "Russia"
+}
+
+###
+POST http://localhost:5050/api/v1/quiz/filterby
+Content-Type: application/json
+
+{
+  "category": "65017f1f25b9202e7a5b3ab5",
+  "level": "Beginner"
 }
 
 ###
@@ -127,6 +156,30 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:5050/api/v1/category/6503cc10e6caeb25f37613dd
+Content-Type: application/json
+
+
+### Answer
+POST http://localhost:5050/api/v1/answers/
+Content-Type: application/json
+
+{
+  "user": "64ef024af7fa5e76e6be447a",
+  "category": "65017f1f25b9202e7a5b3ab5",
+  "score": 15
+}
+
+###
+GET http://localhost:5050/api/v1/answers/latest/
+Content-Type: application/json
+
+###
+GET http://localhost:5050/api/v1/answers/latest/2
+Content-Type: application/json
+
+
+###
+GET http://localhost:5050/api/v1/dashboard
 Content-Type: application/json
 
 

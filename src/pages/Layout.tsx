@@ -1,58 +1,42 @@
-import React, { useContext } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import jwt_decode from 'jwt-decode'
-import Navbar from '../components/Navbar'
-import Quiz from '../components/Quiz'
-import Login from './Login'
+import React, { useContext } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Quiz from '../components/Quiz';
+import Login from './Login';
 import SignIn from './SignIn';
-import AuthContext from '../admin/context/authProvider';
+import AuthContext from '../context/authProvider';
 import PrivateRoute from '../admin/components/PrivateRoute';
 import NotFound from './NotFound';
 
-type Props = {}
+type Props = {};
 
 function Layout({}: Props) {
-
   const { authState } = useContext(AuthContext);
-
-  // if(authState.authToken) {
-  //   let currentDate = new Date();
-  //   const token:any = authState.authToken;
-  //   let decodedToken:any = jwt_decode(token);
-  //   console.log(decodedToken.exp * 1000);
-  //   if(decodedToken.exp * 1000 < currentDate.getTime()) {
-  //     console.log('expire');
-  //   }
-  // }
 
   return (
     <>
-      { authState.isAuth && (
-        <Navbar />
-      )}
-
-      {!authState.isAuth && (
-        <Login />
+      {authState.isAuth && authState.role === 'user' && (
+        <Navbar email={authState.email} />
       )}
 
       <Routes>
-          { authState.isAuth && authState.role === 'user' ? (
-            <Route path="/" element={<PrivateRoute />}>
-                <Route path="/" element={<Quiz />} />
-                <Route path="/quiz" element={<Quiz />} />
-            </Route>
-          
-          ) : (
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signin" element={<SignIn />} />
-            </>
-          )}
+        {authState.isAuth && authState.role === 'user' ? (
+          <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<Quiz />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="*" element={<NotFound />}></Route>
+          </Route>
+        ) : (
+          <>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="*" element={<NotFound />}></Route>
+          </>
+        )}
       </Routes>
-
-      
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

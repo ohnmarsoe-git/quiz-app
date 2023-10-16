@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import AuthContext from '../admin/context/authProvider';
+import AuthContext from '../context/authProvider';
 import BASEAPI from '../API/config'
 
 const useLogin = () => {
@@ -8,9 +8,67 @@ const useLogin = () => {
 
   const { loginDispatch } = useContext(AuthContext);
 
+  const [loading, setLoading] = useState(true);
+
   const [ onerrors , setOnErrors] = useState({
     email: '', password: ''
   })
+
+  const handleGoogle = (response: any) => {
+    api.post(`/login`, JSON.stringify({credential: response.credential})).
+    then((res:any) =>{
+      if(res.status === 200) {
+        loginDispatch({
+          email: res.data.email,
+          role: res.data.role,
+          authToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken
+        })
+      }
+      setLoading(false);
+    }).catch((error:any) => {
+      setOnErrors(error.response.data.errors);
+    })
+  }
+
+  const handleGithub = (code: string) => {
+
+    try {
+      api.post(`/gitlogin`, JSON.stringify({code: code})).then((res:any) => {
+        if(res.status === 200) {
+          loginDispatch({
+            email: res.data.email,
+            role: "user",
+            authToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken
+          })
+          setLoading(false);
+        }
+      }).catch((error:any) => {
+          console.log(error);
+          setOnErrors(error.response.data.errors);
+      })
+    } catch (err) {
+      console.log(err);
+    }
+
+    
+    
+    // api.post(`/login`, JSON.stringify({credential: response.credential})).
+    // then((res:any) =>{
+    //   if(res.status === 200) {
+    //     loginDispatch({
+    //       email: res.data.email,
+    //       role: res.data.role,
+    //       authToken: res.data.accessToken,
+    //       refreshToken: res.data.refreshToken
+    //     })
+    //   }
+    //   setLoading(false);
+    // }).catch((error:any) => {
+    //   setOnErrors(error.response.data.errors);
+    // })
+  }
 
   const onSubmit = (data:any) => {
 
@@ -36,8 +94,11 @@ const useLogin = () => {
   }
 
   return {
+    loading,
     onerrors,
-    onSubmit
+    onSubmit,
+    handleGoogle,
+    handleGithub
   }
 }
 

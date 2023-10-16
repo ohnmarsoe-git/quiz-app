@@ -1,5 +1,10 @@
 const getAll = async (modelName) => {
-  const allResults = await modelName.find({}).exec();
+  const allResults = await modelName.find().exec();
+  return allResults;
+}
+
+const getCount = async (modelName) => {
+  const allResults = await modelName.countDocuments({}).exec();;
   return allResults;
 }
 
@@ -38,6 +43,7 @@ const deleteOne = (modelName, id) => {
 
 export {
   getAll,
+  getCount,
   getOne,
   createNew,
   updateOne,

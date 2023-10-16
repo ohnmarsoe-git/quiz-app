@@ -7,6 +7,8 @@ router.post('/refreshToken', authControllers.refreshToken);
 
 router.post('/login', authControllers.login);
 
+router.post('/gitlogin', authControllers.gitLogin);
+
 router.post('/register', authControllers.register)
 
 router.post('/logout', authControllers.logout);

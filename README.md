@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# Quiz App Project Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is to build a quiz app using the MERN stack, which consists of MongoDB, Express.js, React.js, and Node.js. The app will allow users to create accounts, take quizzes on a variety of topics, and track their progress. Inspired from linkedinskillasseessment.
 
-## Available Scripts
+# Backend
 
-In the project directory, you can run:
+The backend of the app will be built using Node.js and Express.js. It will expose a REST API that the frontend can use to interact with the database. The backend will also be responsible for handling user authentication and authorization.
 
-### `npm start`
+# Database
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The app will use MongoDB as its database. MongoDB is a NoSQL database that is well suited for storing and retrieving JSON data.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Frontend
 
-### `npm test`
+The frontend of the app will be built using React.js. React.js is a JavaScript library for building user interfaces. It is known for its speed, flexibility, and ease of use.
+The frontend will include the following react hooks:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React Context API
+- React Reducer
+- React Custom Hook
 
-### `npm run build`
+# Functionality & Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Client View
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The quiz app will include the following features:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- User accounts: Users can create accounts to track their progress and compete with others.
+- Socail Login: User can easily create accounts with Socail Login (Google, Github)
+- Quiz selection: Users can browse and select quizzes from a variety of topics. (Not finish yet)
+- Question types: The app will support a variety of question types, such as multiple choice, true/false, fill-in-the-blank, and short answer. (Not finish yet)
+- Quiz timer: Some quizzes may include a timer to challenge users to complete the quiz in a certain amount of time.
+- Scoring and feedback: The app will provide users with their score and feedback on their answers.
 
-### `npm run eject`
+# Admin View Panel
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Leaderboards: The app may include leaderboards so that users can compete with each other for the highest score.(Not finish yet!)
+- Quiz lists: Administartor can browse all of quizs and then administrator can CREATE, READ, UPDATE and DELETE of quiz
+- Filter: Can filter quiz with cateogory and level

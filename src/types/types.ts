@@ -7,11 +7,10 @@ export interface Quiz {
 }
 
 export type Category = {
-  __id: string
-  category: string,
-  __v?: string
-}
-
+  __id: string;
+  category: string;
+  __v?: string;
+};
 
 export interface Question {
   _id: string;
@@ -19,7 +18,7 @@ export interface Question {
   category: Category;
   level: string;
   answers: string[];
-  correct_answer: string
+  correct_answer: string;
 }
 
 export interface Questions {
@@ -35,13 +34,8 @@ export interface AxiosResponse<T> {
   data: T;
 }
 
-
-
-
-// export interface Questions {
-//   question: string; 
-//   answers : string[]; 
-//   correct_answer: string;
-// }
-
-export type QuestionState = Quiz & { question: string; answers : string[]; correct_answer: string; }
+export type QuestionState = Quiz & {
+  question: string;
+  answers: string[];
+  correct_answer: string;
+};

@@ -5,8 +5,18 @@ const getAll = async () => {
   return allResults;
 }
 
+const getCount = async () => {
+  const allResults = await Quiz.countDocuments({}).exec();;
+  return allResults;
+}
+
 const getByCategory = async (cat) => {
   const allResults = await Quiz.find({category: "65017f1f25b9202e7a5b3ab5"}).exec();
+  return allResults;
+}
+
+const getByCategoryLevel = async (filter) => {
+  const allResults = await Quiz.find(filter).populate('category').exec();
   return allResults;
 }
 
@@ -45,7 +55,9 @@ const deleteOne = (id) => {
 
 export {
   getAll,
+  getCount,
   getByCategory,
+  getByCategoryLevel,
   getOne,
   createNew,
   updateOne,

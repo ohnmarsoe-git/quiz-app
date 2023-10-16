@@ -1,18 +1,11 @@
-import { Quiz } from '../models/Quiz.js';
-import * as services from '../services/quizService.js'
+import { Answers } from '../models/Answers.js';
+import * as services from '../services/services.js'
+import * as Answerservice from '../services/answerService.js';
 import { handleErrors } from '../utils/handleErrors.js';
 
 const getAll = async (req, res) => {
-  if(
-    !req.body
-  ) {
-    return;
-  }
-
-  // const category = req.body?.category || req.query?.category
-
   try{
-    const data = await services.getAll();
+    const data = await services.getAll(Answers);
     res.status(200).json({status: "success", data});
   } catch (errors) {
     const error = handleErrors(errors);
@@ -20,49 +13,15 @@ const getAll = async (req, res) => {
   } 
 }
 
-const getAllCount = async (req, res) => {
+const getAllAns = async (req, res) => {
+
+  const limit = req.params.id
+
   try{
-    const data = await services.getCount();
+    const data = await Answerservice.getAllAnswers(limit);
     res.status(200).json({status: "success", data});
   } catch (errors) {
-    const error = handleErrors(errors);
-    res.status(500).send({ errors: error })
-  } 
-}
-
-const getCategory = async (req, res) => {
-  if(
-    !req.body
-  ) {
-    return;
-  }
-
-  try{
-    const results = await services.getCategory();
-    res.status(200).send({status: "success", data: results});
-  } catch (errors) {
-    const error = handleErrors(errors);
-    res.status(500).send({ errors: error })
-  } 
-}
-
-const getCategoryLevel = async (req, res) => {
-  if(
-    !req.body
-  ) {
-    return;
-  }
-
-  try{
-    const results = await services.getByCategoryLevel({
-      $and: [
-          {category: req.body.category},
-          {level: req.body.level}
-      ]
-  });
-    
-    res.status(200).send({status: "success", data: results});
-  } catch (errors) {
+    console.log(errors);
     const error = handleErrors(errors);
     res.status(500).send({ errors: error })
   } 
@@ -75,7 +34,6 @@ const getOne = async (req, res) => {
   ) {
     return;
   }
-  
 
   try {
     const result = await services.getOne(req.params.id);
@@ -95,23 +53,23 @@ const createNew = async (req, res) => {
     return;
   }
 
-  const addNew = {
+  const addRecord = {
+    user: req.body.user,
     category: req.body.category,
-    level: req.body.level,
     question: req.body.question,
-    answers: req.body.answers,
-    correct_answer: req.body.correct_answer,
+    score: req.body.score,
     createdAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
     updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" })
   }
 
   try {
-    const created = await services.createNew(addNew);
+    const created = await services.createNew( Answers, addRecord);
     if(created) {
-      const results = await services.getAll();
+      const results = await services.getAll(Answers);
       res.status(201).send({status: "OK", data: results });
     }
   } catch(error) {
+    console.log(error);
     const errors = handleErrors(error);
     res.status(500).send({ errors: errors });
   }
@@ -126,19 +84,10 @@ const updateOne = async (req, res) => {
     return;
   }
 
-
-  // const updateNew = {
-  //   category: req.body.category,
-  //   level: req.body.level,
-  //   question: req.body.question,
-  //   answers: req.body.answers,
-  //   correct_answer: req.body.correct_answer
-  // }
-
   const updateNew = req.body;
   
   try {
-    const result = await services.updateOne(req.params.id, updateNew);
+    const result = await services.updateOne(Answers, req.params.id, updateNew);
     res.status(200).send({status: "success", data: result});
   } catch(errors) {
     const error = handleErrors(errors);
@@ -168,9 +117,7 @@ const deleteOne = async (req, res) => {
 
 export  {
   getAll,
-  getAllCount,
-  getCategory,
-  getCategoryLevel,
+  getAllAns,
   getOne,
   createNew,
   updateOne,

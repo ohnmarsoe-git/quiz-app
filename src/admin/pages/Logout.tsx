@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { redirect, useLocation } from 'react-router-dom';
 import BASEAPI from '../../API/config';
-import AuthContext from '../context/authProvider';
+import AuthContext from '../../context/authProvider';
 
 type Props = {
 
@@ -29,8 +29,6 @@ const Logout = ({}: Props) => {
     e.preventDefault();
 
       api.post(`/logout`, { token: authToken }).then((res: any) => {
-
-        console.log(res.status);
 
         if(res.status === 200){
           delete api.defaults.headers.common['Authorization']

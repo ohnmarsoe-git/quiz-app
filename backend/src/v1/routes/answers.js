@@ -1,11 +1,13 @@
 import express from 'express';
-import * as controllers from '../../../controllers/quizControllers.js'
+import * as controllers from '../../../controllers/answerControllers.js'
 
 const router = express.Router();
 
 router.get('/', controllers.getAll);
 
-router.get('/count', controllers.getAllCount);
+router.get('/latest', controllers.getAllAns);
+
+router.get('/latest/:id', controllers.getAllAns);
 
 router.get('/:id', controllers.getOne);
 
@@ -14,8 +16,6 @@ router.post('/', controllers.createNew);
 router.patch('/:id', controllers.updateOne);
 
 router.delete('/:id', controllers.deleteOne);
-
-router.post('/filterby', controllers.getCategoryLevel);
 
 export default router;
 

@@ -1,6 +1,6 @@
 export const handleErrors = (err) => {
   
-  let errors = { email: '', password: '', message: '' }
+  let errors = { email: '', password: '', message: '', error: '' }
 
   if(err.message === 'incorrect email') {
     errors.email = 'Email is not registered!';
@@ -23,6 +23,8 @@ export const handleErrors = (err) => {
       errors[properties.path] = properties.message
     })
   }
+
+  errors.error = 'something wrong!'
 
   return errors;
 }

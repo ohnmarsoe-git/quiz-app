@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useCommonApi from '../../hooks/useCommonApi'
+import useCommonApi from '../../hooks/useCommonApi';
+import { useForm } from 'react-hook-form';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import SearchFilter from '../components/SearchFilter';
+import QuestionLists from '../components/QuestionLists';
+import CategorySelect from '../components/CategorySelect';
+import BASEAPI from '../../API/config';
 
-type Props = {}
+type Props = {};
 
 interface Questions {
   _id: string;
@@ -12,12 +17,27 @@ interface Questions {
   category: string;
   level: string;
   answers: string[];
-  correct_answer: string
+  correct_answer: string;
 }
 
-const Questions:React.FC<Props> = ({}) => {
+const Questions: React.FC<Props> = ({}) => {
+  const api: any = BASEAPI();
 
-  const { data, isLoading, error, makeRequest } = useCommonApi<Questions>('/api/v1/quiz');
+  const { data, isLoading, error, makeRequest } =
+    useCommonApi<Questions>('/api/v1/quiz');
+
+  const [keyword, setKeyword] = useState();
+
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  const [flag, setFlag] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm();
 
   const handleDelete = (id: string) => {
     confirmAlert({
@@ -33,93 +53,139 @@ const Questions:React.FC<Props> = ({}) => {
         }
       ]
     });
-  }
-  
-  if(isLoading) return <div>loading ....</div>
+  };
+
+  const handleFilter = async (event: any) => {
+    const newSearchKeyword = event.target.value;
+    const filtered: any = data?.filter((item) => {
+      return item.question
+        .toLowerCase()
+        .includes(newSearchKeyword?.toLowerCase());
+    });
+
+    //@ts-ignore
+    setKeyword(keyword);
+    setFilteredItems(filtered);
+  };
+
+  const getFilterBy = (searchQuery: any) => {
+    api
+      .post('/api/v1/quiz/filterby', JSON.stringify(searchQuery))
+      .then((response: any) => {
+        const res = response?.data.data;
+        setFilteredItems(res);
+      });
+    setFlag(true);
+  };
+
+  const onSearch = (formData: any) => {
+    let searchData = {
+      category: formData.category,
+      level: formData.level
+    };
+    getFilterBy(searchData);
+    setFlag(true);
+    reset();
+  };
+
+  if (isLoading) return <div>loading ....</div>;
 
   return (
-    <div className="">
-        <div className="min-w-screen min-h-screen flex justify-center bg-gray-100 font-sans overflow-hidden">
-          <div className="w-full lg:w-5/6">
-            <h2 className='text-gray-600 uppercase leading lg:text-3xl sm:text-2xl '>Javsrcipts - Questions</h2>
-            <div className="bg-white shadow-md rounded my-6 overflow-scroll">
-              <table className="min-w-max w-full table-auto">
-                <thead key="thead">
-                  <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left">Questions</th>
-                    <th className="py-3 px-6 text-left">Category</th>
-                    <th className="py-3 px-6 text-left">Answers</th>
-                    <th className="py-3 px-6 text-center">Correct Answer</th>
-                    <th className="py-3 px-6 text-center">Level</th>
-                    <th className="py-3 px-6 text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody key="tbody" className="text-gray-600 text-sm font-light">
-                  { data?.map((q:any, index:number) => 
-                    <>
-                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
-                    <td key={q._id} className="py-3 px-6 text-left whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="mr-2">
-                          <span className="font-medium">{index + 1}.</span>
-                        </div>
-                        <span className="font-medium">{q.question}</span>
-                      </div>
-                    </td>
-                    <td key={q.category?._id} className="py-3 px-6 text-center">
-                      <div className="flex items-center">
-                        <div className="mr-2">
-                          <span className='font-medium text-cyan-600 uppercase py-1 px-3 rounded-full bg-cyan-100'>{q.category?.category}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex items-center">
-                        <div className="mr-2">
-                          <span className='font-medium text-green-500'>{q.correct_answer}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex items-center justify-center">
-                        <span className='whitespace-pre-line'>{ `${q.answers.join("\n")}` }</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-6 text-center">
-                      <span className="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">{q.level}</span>
-                    </td>
-                    <td  className="py-3 px-6 text-center">
-                      <div className="flex item-center justify-center">
-                        <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                        </div>
-                        <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                          <Link to={`/admin/questions/${q._id}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                            </svg>
-                          </Link>
-                        </div>
-                        <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" onClick={() => handleDelete(q._id)}>
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  </>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <div className="min-w-screen min-h-screen flex justify-center bg-gray-100 font-sans overflow-hidden">
+      <div className="w-full lg:w-5/6">
+        <h2 className="text-gray-600 uppercase leading lg:text-3xl sm:text-2xl ">
+          Javsrcipts - Questions
+        </h2>
+
+        <form className="mt-5 md:flex gap-3" onSubmit={handleSubmit(onSearch)}>
+          <CategorySelect
+            title="category"
+            register={register}
+            error={errors.category}
+          />
+          <select
+            {...register('level')}
+            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option key={1}>Please Choose Level</option>
+            <option key={2} value="Beginner">
+              Beginner
+            </option>
+            <option key={3} value="Intermeidate">
+              Intermeidate
+            </option>
+            <option key={4} value="Difficult">
+              Difficult
+            </option>
+          </select>
+          <button
+            type="submit"
+            className="max-w-md text-center inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+          >
+            SEARCH
+          </button>
+        </form>
+
+        <SearchFilter keyword={keyword} onChange={handleFilter} />
+
+        <div className="bg-white shadow-md rounded my-6 overflow-scroll">
+          <table className="min-w-max w-full table-auto">
+            <thead>
+              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th className="py-3 px-6 text-left">Questions</th>
+                <th className="py-3 px-6 text-left">Category</th>
+                <th className="py-3 px-6 text-left">Correct Answer</th>
+                <th className="py-3 px-6 text-center">Answers</th>
+                <th className="py-3 px-6 text-center">Level</th>
+                <th className="py-3 px-6 text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-600 text-sm font-light">
+              {filteredItems && flag
+                ? filteredItems.map((q: any, index: number) => (
+                    <React.Fragment key={index}>
+                      <QuestionLists
+                        index={index}
+                        _id={q._id}
+                        question={q?.question}
+                        category={q.category?.category}
+                        level={q.level}
+                        answers={q.answers}
+                        correct_answer={q.correct_answer}
+                        handleDelete={handleDelete}
+                      />
+                    </React.Fragment>
+                  ))
+                : data?.map((q: any, index: number) => (
+                    <React.Fragment key={index}>
+                      <QuestionLists
+                        index={index}
+                        _id={q._id}
+                        question={q?.question}
+                        category={q.category?.category}
+                        level={q.level}
+                        answers={q.answers}
+                        correct_answer={q.correct_answer}
+                        handleDelete={handleDelete}
+                      />
+                    </React.Fragment>
+                  ))}
+              {filteredItems.length <= 0 && flag && (
+                <tr className="border-b border-gray-200 hover:bg-gray-100">
+                  <td
+                    colSpan={6}
+                    className="py-3 px-6 text-left whitespace-nowrap"
+                  >
+                    Recoords Not Found!
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Questions
+export default Questions;

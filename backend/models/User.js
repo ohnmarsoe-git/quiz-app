@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 
-
 const userSchemea = new mongoose.Schema({
   firstName: {
     type: String,
@@ -22,20 +21,32 @@ const userSchemea = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please enter an password'],
-    minLength: [6, 'Minimum password length is 6 characters']
+    // required: [true, 'Please enter an password'],
+    // minLength: [6, 'Minimum password length is 6 characters']
   },
   role: {
     type: String,
     default: "user"
   },
+  loginType: {
+    type: String,
+    required: true
+  }
 })
 
 // fire a function before doc saved to db
 userSchemea.pre('save', async function(next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  console.log('New user is about to be created and saved', this);
+
+  if(this.isModified("password")) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    console.log('New user is about to be created and saved', this);
+  }
+
+  if (this.socialLogin) {
+    this.password = null;
+  }
+
   next();
 })
 
@@ -50,6 +61,12 @@ userSchemea.statics.login = async function(email, password) {
     throw Error('incorrect password');
   }
   throw Error('incorrect email');
+}
+
+// find user exist or not
+userSchemea.statics.findUser = async function (email) {
+  const user = await this.findOne({ email })
+  return user;
 }
 
 const User = mongoose.model('user', userSchemea);
