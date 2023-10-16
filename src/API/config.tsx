@@ -33,6 +33,7 @@ const BASEAPI = () => {
               config.defaults.headers['authorization'] =
                 'Bearer ' + res.data.refreshToken;
               loginDispatch({
+                id: res.data.id,
                 email: res.data.email,
                 role: res.data.role,
                 authToken: res.data.accessToken,
@@ -40,10 +41,12 @@ const BASEAPI = () => {
               });
             } else {
               logoutDispatch();
+              localStorage.removeItem('user');
               return redirect('/login');
             }
           } catch (err) {
             logoutDispatch();
+            localStorage.removeItem('user');
             return redirect('/login');
           }
         }

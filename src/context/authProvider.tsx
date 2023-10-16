@@ -14,6 +14,7 @@ export interface AuthContextProviderProps {
 }
 
 export type UserData = {
+  id: string;
   email: string;
   role: string;
   authToken: string;
@@ -63,11 +64,12 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
 
   const loginDispatch = useCallback(
     (props: UserData) => {
-      const { email, role, authToken, refreshToken } = props;
+      const { id, email, role, authToken, refreshToken } = props;
 
       setAuthState({
         type: AuthActionEnum.LOG_IN,
         payload: {
+          id,
           email,
           role,
           authToken,

@@ -1,4 +1,5 @@
 import { Answers } from '../models/Answers.js';
+import { User } from '../models/User.js';
 import * as services from '../services/services.js'
 import * as Answerservice from '../services/answerService.js';
 import { handleErrors } from '../utils/handleErrors.js';

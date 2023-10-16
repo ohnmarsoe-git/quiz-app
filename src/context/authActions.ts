@@ -7,6 +7,7 @@ export type AuthAction =
   | {
       type: AuthActionEnum.LOG_IN;
       payload: {
+        id: string;
         email: string;
         role: string;
         authToken: string;

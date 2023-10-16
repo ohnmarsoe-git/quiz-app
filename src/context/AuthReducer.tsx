@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 
 export interface AuthState {
   isAuth: boolean;
+  id?: string;
   email?: string;
   role?: string;
   authToken?: string;
@@ -21,6 +22,7 @@ const AuthReducer: Reducer<AuthState, AuthAction> = (state, action) => {
     return {
       ...state,
       isAuth: true,
+      id: action.payload.id,
       email: action.payload.email,
       role: action.payload.role,
       authToken: action.payload.authToken,

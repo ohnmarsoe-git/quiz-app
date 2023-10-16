@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Logout from "../admin/pages/Logout";
+import React, { useState } from 'react';
+import Logout from '../admin/pages/Logout';
 
 type Props = {};
 
@@ -23,7 +23,7 @@ const Navbar = (props: any) => {
               alt="Flowbite Logo"
             />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Quiz App{" "}
+              Quiz App{' '}
             </span>
           </a>
 
@@ -74,8 +74,8 @@ const Navbar = (props: any) => {
               <div
                 className={`absolute ${
                   toggle === 1
-                    ? "transition ease-out duration-100 transform opacity-0 scale-95"
-                    : "transform opacity-100 scale-100 transition ease-in duration-75"
+                    ? 'transition ease-out duration-100 transform opacity-0 scale-95'
+                    : 'transform opacity-100 scale-100 transition ease-in duration-75'
                 } right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 role="menu"
                 aria-orientation="vertical"
@@ -111,17 +111,7 @@ const Navbar = (props: any) => {
                   >
                     License
                   </a>
-                  <form method="POST" action="#" role="none">
-                    <button
-                      type="submit"
-                      className="text-gray-700 block w-full px-4 py-2 text-left text-sm"
-                      role="menuitem"
-                      tabIndex={-1}
-                      id="menu-item-3"
-                    >
-                      Sign out
-                    </button>
-                  </form>
+                  <Logout />
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@ export interface Quiz {
 }
 
 export type Category = {
-  __id: string;
+  _id: string;
   category: string;
   __v?: string;
 };

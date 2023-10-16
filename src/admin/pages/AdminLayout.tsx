@@ -25,6 +25,8 @@ import EditUser from './EditUser';
 function AdminLayout() {
   const { authState } = useContext(AuthContext);
 
+  console.log(authState);
+
   const [toggle, setToggle] = useState(0);
 
   const handleToggle = (value: number) => {

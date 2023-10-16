@@ -1,5 +1,7 @@
 import { Answers } from '../models/Answers.js';
 
+
+
 const getAllAnswers = async (count) => {
 
   const populateQuery = [
@@ -12,7 +14,7 @@ const getAllAnswers = async (count) => {
     select: 'category'
   }
 ]
-  // const allResults = await Answers.find().populate('user').populate('category').exec();
+  //const allResults = await Answers.find().populate('user').populate('category').exec();
   const allResults = await Answers.find().populate(populateQuery).sort('-createdAt').limit(count).exec();
   return allResults;
 }

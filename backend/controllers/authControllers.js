@@ -47,7 +47,6 @@ const login = async(req, res) => {
       const verficationResponse = await verfiyGoogleToken(credential);
         
         if(verficationResponse.error) {
-          console.log("verifyerror");
           return res.status(400).json({message: verficationResponse.error})
         }
 
@@ -67,8 +66,10 @@ const login = async(req, res) => {
           // console.log(userInfo);
 
           user = await User.create(userInfo);
+
         } else {
           user = {
+            id: existsInDB._id,
             email: profile?.email
           }
         }
@@ -78,8 +79,10 @@ const login = async(req, res) => {
 
         // refreshTokens.push(accessToken);
         res.cookie('token', refreshToken, { httpOnly: true, maxAge: maxAge * 1000 });
+        
 
         res.status(200).json({ 
+          id: user.id,
           email: user.email,
           role: "user", 
           accessToken: accessToken,
@@ -96,8 +99,8 @@ const login = async(req, res) => {
       
       // refreshTokens.push(accessToken);
       res.cookie('token', refreshToken, { httpOnly: true, maxAge: maxAge * 1000 });
-  
       res.status(200).json({ 
+        id: user._id,
         email: user.email,
         role: user.role, 
         accessToken: accessToken,
@@ -150,7 +153,6 @@ const gitLogin = async (req,res) => {
             loginType: 'social'
           }
           user = await User.create(userInfo);
-          console.log(user);
 
         } else {
           user = {
@@ -165,7 +167,8 @@ const gitLogin = async (req,res) => {
 
         res.cookie('token', refreshToken, { httpOnly: true, maxAge: maxAge * 1000 });
 
-        res.status(200).json({ 
+        res.status(200).json({
+          id: user._id,
           email: user.email,
           role: 'user', 
           accessToken: accessToken,
