@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { redirect, useLocation } from 'react-router-dom';
 import BASEAPI from '../../API/config';
 import AuthContext from '../../context/authProvider';
@@ -6,33 +6,24 @@ import AuthContext from '../../context/authProvider';
 type Props = {};
 
 const Logout = ({}: Props) => {
-  const { authState, logoutDispatch } = useContext(AuthContext);
+  const { authState, authAdminState, logoutDispatch } = useContext(AuthContext);
 
   const { authToken } = authState;
+
+  const authAdminToken = authAdminState.refreshToken;
 
   const location = useLocation();
 
   const api: any = BASEAPI();
 
-  useEffect(() => {
-    if (location.pathname === '/admin/logout') {
-      logoutDispatch();
-    } else if (location.pathname === '/logout') {
-      logoutDispatch();
-    }
-  }, []);
-
-  const handleLogout = async (e: any) => {
-    e.preventDefault();
-
+  const requestHandle = (token: any, page: string) => {
     api
-      .post(`/logout`, { token: authToken })
+      .post(`/logout`, { token: token })
       .then((res: any) => {
         if (res.status === 200) {
           delete api.defaults.headers.common['Authorization'];
-          logoutDispatch();
-
-          if (location.pathname === '/admin/logout') {
+          logoutDispatch(page);
+          if (page === 'admin') {
             return redirect('/admin/login');
           } else {
             return redirect('/login');
@@ -41,45 +32,34 @@ const Logout = ({}: Props) => {
       })
       .catch((error: any) => {
         if (error.response) {
-          if (
-            error.response.status === 403 &&
-            error.response.data === 'No token provided'
-          ) {
-            logoutDispatch();
-            if (location.pathname === '/admin/logout') {
-              return redirect('/admin/login');
-            } else {
-              return redirect('/login');
-            }
+          logoutDispatch(page);
+          if (page === 'admin') {
+            return redirect('/admin/login');
+          } else {
+            return redirect('/login');
           }
-
-          if (error.response.status === 401) {
-            logoutDispatch();
-            if (location.pathname === '/admin/logout') {
-              return redirect('/admin/login');
-            } else {
-              return redirect('/login');
-            }
-          }
-        }
-        logoutDispatch();
-        if (location.pathname === '/admin/logout') {
-          return redirect('/admin/login');
-        } else {
-          return redirect('/login');
         }
       });
   };
 
+  const handleLogout = async (page: string) => {
+    if (page === 'admin') {
+      requestHandle(authAdminToken, 'admin');
+    } else {
+      requestHandle(authToken, 'user');
+    }
+  };
+
   return (
     <>
-      {authState?.role === 'admin' && (
-        <button onClick={handleLogout}>Logout</button>
-      )}
+      {location.pathname.includes('admin') &&
+        authAdminState?.role === 'admin' && (
+          <button onClick={() => handleLogout('admin')}>Logout</button>
+        )}
 
-      {authState?.role === 'user' && (
+      {!location.pathname.includes('admin') && authState?.role === 'user' && (
         <button
-          onClick={handleLogout}
+          onClick={() => handleLogout('user')}
           className="text-gray-700 block w-full px-4 py-2 text-left text-sm"
           role="menuitem"
           tabIndex={-1}

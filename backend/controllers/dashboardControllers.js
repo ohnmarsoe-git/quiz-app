@@ -20,7 +20,6 @@ const getAll = async (req, res) => {
     }
     res.status(200).json({status: "success", data});
   } catch (errors) {
-    console.log(errors);
     const error = handleErrors(errors);
     res.status(500).send({ errors: error })
   } 

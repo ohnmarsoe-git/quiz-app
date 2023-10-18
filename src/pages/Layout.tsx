@@ -5,7 +5,7 @@ import Quiz from '../components/Quiz';
 import Login from './Login';
 import SignIn from './SignIn';
 import AuthContext from '../context/authProvider';
-import PrivateRoute from '../admin/components/PrivateRoute';
+import PrivateRoute from '../components/PrivateRoute';
 import NotFound from './NotFound';
 
 type Props = {};

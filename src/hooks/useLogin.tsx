@@ -57,21 +57,6 @@ const useLogin = () => {
     } catch (err) {
       console.log(err);
     }
-
-    // api.post(`/login`, JSON.stringify({credential: response.credential})).
-    // then((res:any) =>{
-    //   if(res.status === 200) {
-    //     loginDispatch({
-    //       email: res.data.email,
-    //       role: res.data.role,
-    //       authToken: res.data.accessToken,
-    //       refreshToken: res.data.refreshToken
-    //     })
-    //   }
-    //   setLoading(false);
-    // }).catch((error:any) => {
-    //   setOnErrors(error.response.data.errors);
-    // })
   };
 
   const onSubmit = (data: any) => {

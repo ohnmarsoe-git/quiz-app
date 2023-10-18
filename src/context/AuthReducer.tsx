@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 
 export interface AuthState {
   isAuth: boolean;
+  isAdminAuth?: boolean;
   id?: string;
   email?: string;
   role?: string;
@@ -12,16 +13,29 @@ export interface AuthState {
 }
 
 export const defaultAuthState: AuthState = {
-  isAuth: false
+  isAuth: false,
+  isAdminAuth: false
 };
 
 const AuthReducer: Reducer<AuthState, AuthAction> = (state, action) => {
   if (action.type === 'LOG_IN') {
     localStorage.setItem('user', JSON.stringify(action.payload));
-
     return {
       ...state,
       isAuth: true,
+      id: action.payload.id,
+      email: action.payload.email,
+      role: action.payload.role,
+      authToken: action.payload.authToken,
+      refreshToken: action.payload.refreshToken
+    };
+  }
+
+  if (action.type === 'ADMIN_LOG_IN') {
+    localStorage.setItem('userAdmin', JSON.stringify(action.payload));
+    return {
+      ...state,
+      isAdminAuth: true,
       id: action.payload.id,
       email: action.payload.email,
       role: action.payload.role,
@@ -35,6 +49,18 @@ const AuthReducer: Reducer<AuthState, AuthAction> = (state, action) => {
     return {
       ...state,
       isAuth: false,
+      email: '',
+      role: '',
+      authToken: '',
+      refreshToken: ''
+    };
+  }
+
+  if (action.type === 'ADMIN_LOG_OUT') {
+    localStorage.removeItem('userAdmin');
+    return {
+      ...state,
+      isAdminAuth: false,
       email: '',
       role: '',
       authToken: '',

@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AxiosError } from 'axios';
 import BASEAPI from '../../API/config';
+import AuthContext from '../../context/authProvider';
 
 type Props = {
   userCount?: number;
@@ -9,17 +11,25 @@ type Props = {
 };
 
 const Dashboard = () => {
+  const { logoutDispatch } = useContext(AuthContext);
   const [loading, setLoaing] = useState(true);
   const [answers, setAnswers] = useState<Props | null>(null);
 
   const api: any = BASEAPI();
 
   const getAll = async () => {
-    await api.get('/api/v1/dashboard/').then((response: any) => {
+    try {
+      const response = await api.get('/api/v1/dashboard/');
       const res = response?.data.data;
       setAnswers(res);
       setLoaing(false);
-    });
+    } catch (error) {
+      const err = error as AxiosError;
+      //@ts-ignore
+      if (err.response?.data && err.response?.data.data === 'jwt expired') {
+        logoutDispatch('admin');
+      }
+    }
   };
 
   useEffect(() => {

@@ -1,19 +1,11 @@
-import React, { useContext, useEffect } from 'react'
-import { useCookies } from 'react-cookie';
-import AuthContext from '../../context/authProvider'
-import { Navigate, Outlet, redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../../context/authProvider';
+import { Navigate, Outlet } from 'react-router-dom';
 
+const PrivateRoute = (isAllowed: any) => {
+  // const { authAdminState } = useContext(AuthContext);
+  console.log(isAllowed);
+  return isAllowed ? <Outlet /> : <Navigate replace to="/admin/login" />;
+};
 
-const PrivateRoute = () => {
-  
-  const { authState } = useContext(AuthContext);
-
-  return authState.isAuth ? 
-      <Outlet /> 
-    : 
-      <>
-        { authState.role === 'user' ? <Navigate to="/login" /> : <Navigate to="/admin/login" /> }
-      </>
-}
-
-export default PrivateRoute
+export default PrivateRoute;

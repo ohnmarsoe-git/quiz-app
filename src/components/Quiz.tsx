@@ -20,6 +20,7 @@ const Quiz: FC = () => {
   const [finish, setFinish] = useState(false);
   const [nextQuestion, setNextQuestion] = useState(0);
   const [showTimer, setShowTimer] = useState(true);
+  const [totalQuestion, setTotalQuestion] = useState(0);
 
   if (data?.length) {
     count = data?.length;
@@ -31,11 +32,13 @@ const Quiz: FC = () => {
       category: data?.[currentQuestion].category?._id,
       score: score
     };
+
     makeRequest(`/api/v1/answers/`, 'POST', scoreData);
   };
 
   const handleCheckAnswer = () => {
     if (nextQuestion === count - 1) {
+      setTotalQuestion(count);
       sendScore();
       setFinish(true);
     }
@@ -62,16 +65,6 @@ const Quiz: FC = () => {
       setShowTimer(true);
     });
   };
-
-  // const countQuestions = () => {
-  //   if (currentQuestion === data?.length) {
-  //     return currentQuestion;
-  //   } else if (currentQuestion > 0) {
-  //     return currentQuestion + 1;
-  //   } else {
-  //     return 1;
-  //   }
-  // }
 
   const handleTimeUp = () => {
     setScore((prev) => prev + 0);
@@ -155,8 +148,7 @@ const Quiz: FC = () => {
               {scroeCal()}
             </h2>
             <p className="text-center pb-10">
-              {' '}
-              You got {score} out of {count}
+              You got {score} out of {totalQuestion}
             </p>
           </div>
         )}

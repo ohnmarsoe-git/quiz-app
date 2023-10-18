@@ -1,20 +1,31 @@
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import { redirect } from 'react-router-dom';
+import { redirect, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext from '../context/authProvider';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const BASEAPI = () => {
-  const { authState, loginDispatch, logoutDispatch } = useContext(AuthContext);
+  let token;
+
+  const location = useLocation();
+
+  const { authState, authAdminState, loginDispatch, logoutDispatch } =
+    useContext(AuthContext);
+
+  if (!location.pathname.includes('admin') && authState.isAuth)
+    token = authState.refreshToken;
+
+  if (location.pathname.includes('admin') && authAdminState.isAdminAuth)
+    token = authAdminState.refreshToken;
 
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'content-type': 'application/json',
-      Authorization: `Bearer ${authState?.refreshToken}`
+      Authorization: `Bearer ${token}`
     }
   });
 
@@ -39,15 +50,19 @@ const BASEAPI = () => {
                 authToken: res.data.accessToken,
                 refreshToken: res.data.refreshToken
               });
-            } else {
-              logoutDispatch();
+            }
+          } catch (error) {
+            if (authState.isAuth) {
+              logoutDispatch('user');
               localStorage.removeItem('user');
               return redirect('/login');
             }
-          } catch (err) {
-            logoutDispatch();
-            localStorage.removeItem('user');
-            return redirect('/login');
+
+            if (authAdminState.isAdminAuth) {
+              logoutDispatch('admin');
+              localStorage.removeItem('userAdmin');
+              return redirect('/admin/login');
+            }
           }
         }
       }
