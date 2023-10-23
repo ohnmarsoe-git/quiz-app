@@ -47,7 +47,7 @@ $ cd backend
 $ yarn start
 ```
 
-![Optional Text](./dashboard.png)
+![dashboard](./dashboard.png)
 
 ### Run Frontend
 
@@ -55,3 +55,7 @@ $ yarn start
 $ cd quiz-app
 $ yarn start
 ```
+
+![quiz app homepage](./homepage.png)
+
+![quiz app](./quiz.png)
