@@ -1,5 +1,6 @@
 import { Quiz } from '../models/Quiz.js';
 import * as services from '../services/quizService.js'
+import { getByUser } from '../services/answerService.js'
 import { handleErrors } from '../utils/handleErrors.js';
 
 const getAll = async (req, res) => {
@@ -30,15 +31,9 @@ const getAllCount = async (req, res) => {
   } 
 }
 
-const getCategory = async (req, res) => {
-  if(
-    !req.body
-  ) {
-    return;
-  }
-
+const getByCategory = async (req, res) => {
   try{
-    const results = await services.getCategory();
+    const results = await services.getByCategory();
     res.status(200).send({status: "success", data: results});
   } catch (errors) {
     const error = handleErrors(errors);
@@ -54,14 +49,48 @@ const getCategoryLevel = async (req, res) => {
   }
 
   try{
-    const results = await services.getByCategoryLevel({
+      const results = await services.getByCategoryLevel({
+        $and: [
+            {category: req.body.category},
+            {level: req.body.level}
+        ]
+    });
+      res.status(200).send({status: "success", data: results});
+  } catch (errors) {
+    const error = handleErrors(errors);
+    res.status(500).send({ errors: error })
+  } 
+}
+
+const getFilterByUser = async (req, res) => {
+  if(
+    !req.body
+  ) {
+    return;
+  }
+
+  try{
+
+    const user = await getByUser({
       $and: [
-          {category: req.body.category},
-          {level: req.body.level}
+        {user: req.body.id},
+        {category: req.body.category},
+        // {renewDate: {$gt: '2024-02-20T17:30:00.000+00:00'}}
+        {renewDate: {$gt: new Date().toLocaleString("en-US", { timeZone: "UTC" })}}
       ]
-  });
-    
-    res.status(200).send({status: "success", data: results});
+    });
+
+    if(user < 3) {
+      const results = await services.getByCategoryLevel({
+        $and: [
+            {category: req.body.category},
+            {level: req.body.level}
+        ]
+    });
+      res.status(200).send({status: "success", data: results});
+    } else {
+      res.status(200).send({status: "success", data: 'NotAllowed'});
+    }
   } catch (errors) {
     const error = handleErrors(errors);
     res.status(500).send({ errors: error })
@@ -169,8 +198,9 @@ const deleteOne = async (req, res) => {
 export  {
   getAll,
   getAllCount,
-  getCategory,
+  getByCategory,
   getCategoryLevel,
+  getFilterByUser,
   getOne,
   createNew,
   updateOne,

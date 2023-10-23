@@ -1,29 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import BASEAPI from '../../API/config';
+import React, { useEffect, useState, useContext } from 'react';
+import { AxiosError } from 'axios';
+import BASEAPI from '../API/config';
+import AuthContext from '../context/authProvider';
 
-const ScoreList = () => {
+const Results = () => {
+  const { authState, logoutDispatch } = useContext(AuthContext);
+
   const api: any = BASEAPI();
 
+  const [loading, setLoaing] = useState(true);
   const [answers, setAnswers] = useState([]);
 
-  const getAll = async () => {
-    await api.get('/api/v1/answers/latest').then((response: any) => {
+  const getAnswerResults = async () => {
+    try {
+      const response = await api.get(`/api/v1/answers/history/${authState.id}`);
       const res = response?.data.data;
+      console.log(res);
       setAnswers(res);
-    });
+      setLoaing(false);
+    } catch (error) {
+      const err = error as AxiosError;
+      //@ts-ignore
+      if (err.response?.data && err.response?.data.data === 'jwt expired') {
+        logoutDispatch('user');
+      }
+    }
   };
 
   useEffect(() => {
-    getAll();
-    // eslint-disable-next-line
+    getAnswerResults();
   }, []);
 
+  console.log(answers);
+
+  if (loading) return <div>loading ....</div>;
+
   return (
-    <div className="min-w-screen min-h-screen flex justify-center bg-gray-100 font-sans overflow-hidden">
-      <div className="w-full lg:w-5/6">
-        <h2 className="text-gray-600 uppercase leading lg:text-3xl sm:text-2xl mb-5">
-          SCORE LISTS
-        </h2>
+    <div className="max-w-screen-xl mx-auto mt-20 p-10 relative">
+      <h2 className="text-3xl font-medium text-gray-700">Results History</h2>
+      <div className="flex flex-col mt-8">
         <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
           <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
@@ -37,6 +52,9 @@ const ScoreList = () => {
                   </th>
                   <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
                     Score
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
+                    Date
                   </th>
                 </tr>
               </thead>
@@ -74,6 +92,13 @@ const ScoreList = () => {
                             {ans?.score}
                           </div>
                         </td>
+                        <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                          <div className="text-sm leading-5 text-gray-900">
+                            {new Date(ans?.createdAt).toLocaleDateString(
+                              'en-US'
+                            )}
+                          </div>
+                        </td>
                       </tr>
                     </React.Fragment>
                   ))}
@@ -86,4 +111,4 @@ const ScoreList = () => {
   );
 };
 
-export default ScoreList;
+export default Results;

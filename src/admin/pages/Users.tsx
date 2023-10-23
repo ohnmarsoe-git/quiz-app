@@ -1,17 +1,9 @@
 import React from 'react';
+import { User } from '../../types/types';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import useCommonApi from '../../hooks/useCommonApi';
 import UserLists from '../components/UserLists';
-
-interface User {
-  index: number;
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  type: string;
-}
 
 const Users = () => {
   const { data, isLoading, makeRequest } = useCommonApi<User>('/api/v1/user');

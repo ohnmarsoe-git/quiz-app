@@ -75,6 +75,14 @@ GET http://localhost:5050/api/v1/64fe8b354d9e59418c9258be
 Content-Type: application/json
 
 ###
+GET http://localhost:5050/api/v1/quiz/count
+Content-Type: application/json
+
+###
+GET http://localhost:5050/api/v1/quiz/groupby
+Content-Type: application/json
+
+###
 POST http://localhost:5050/api/v1/quiz
 Content-Type: application/json
 

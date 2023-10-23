@@ -6,6 +6,8 @@ export interface AuthState {
   isAuth: boolean;
   isAdminAuth?: boolean;
   id?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   role?: string;
   authToken?: string;
@@ -20,10 +22,13 @@ export const defaultAuthState: AuthState = {
 const AuthReducer: Reducer<AuthState, AuthAction> = (state, action) => {
   if (action.type === 'LOG_IN') {
     localStorage.setItem('user', JSON.stringify(action.payload));
+
     return {
       ...state,
       isAuth: true,
       id: action.payload.id,
+      firstName: action.payload.firstName,
+      lastName: action.payload.lastName,
       email: action.payload.email,
       role: action.payload.role,
       authToken: action.payload.authToken,

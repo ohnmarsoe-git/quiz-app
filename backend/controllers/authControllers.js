@@ -70,7 +70,9 @@ const login = async(req, res) => {
         } else {
           user = {
             id: existsInDB._id,
-            email: profile?.email
+            email: profile?.email,
+            firstName : profile?.given_name, 
+            lastName: profile?.family_name,
           }
         }
         
@@ -84,6 +86,8 @@ const login = async(req, res) => {
         res.status(200).json({ 
           id: user.id,
           email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
           role: "user", 
           accessToken: accessToken,
           refreshToken: refreshToken
@@ -102,6 +106,8 @@ const login = async(req, res) => {
       res.status(200).json({ 
         id: user._id,
         email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
         role: user.role, 
         accessToken: accessToken,
         refreshToken: refreshToken
@@ -157,6 +163,7 @@ const gitLogin = async (req,res) => {
         } else {
           user = {
             email: response?.email,
+            firstName : response?.name,
             role: 'user',
             loginType : "social",
           }
@@ -170,6 +177,7 @@ const gitLogin = async (req,res) => {
         res.status(200).json({
           id: user._id,
           email: user.email,
+          firstName : response?.name,
           role: 'user', 
           accessToken: accessToken,
           refreshToken: refreshToken

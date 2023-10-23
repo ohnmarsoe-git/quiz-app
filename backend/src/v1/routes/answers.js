@@ -9,6 +9,8 @@ router.get('/latest', controllers.getAllAns);
 
 router.get('/latest/:id', controllers.getAllAns);
 
+router.get('/history/:id', controllers.getByUser);
+
 router.get('/:id', controllers.getOne);
 
 router.post('/', controllers.createNew);

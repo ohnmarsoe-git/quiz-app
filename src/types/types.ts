@@ -1,9 +1,11 @@
-export interface Quiz {
-  category: string;
-  level: string;
-  totalQuestions: number;
-  totalTime: number;
-  questions: Questions[];
+export interface User {
+  _id?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: string;
+  loginType?: string;
 }
 
 export type Category = {
@@ -12,14 +14,14 @@ export type Category = {
   __v?: string;
 };
 
-export interface Question {
+/* export interface Question {
   _id: string;
   question: string;
   category: Category;
   level: string;
   answers: string[];
   correct_answer: string;
-}
+}*/
 
 export interface Questions {
   _id: string;
@@ -28,14 +30,9 @@ export interface Questions {
   level: string;
   answers: string[];
   correct_answer: string;
+  message?: any;
 }
 
 export interface AxiosResponse<T> {
   data: T;
 }
-
-export type QuestionState = Quiz & {
-  question: string;
-  answers: string[];
-  correct_answer: string;
-};

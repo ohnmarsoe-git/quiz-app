@@ -1,15 +1,7 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { User } from '../../types/types';
 import useCommonApi from '../../hooks/useCommonApi';
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: string;
-}
 
 const EditUser = () => {
   const param = useParams();
@@ -29,16 +21,20 @@ const EditUser = () => {
 
   const onSubmit = (formData: any) => {
     //@ts-ignore
-    const pass = formData.password ? formData.password : data?.password;
+    let userInfo;
+    //@ts-ignore
     let userData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
-      role: formData.role,
-      password: pass
+      role: 'user'
     };
 
-    makeRequest(`/api/v1/user/${param.id}`, 'PATCH', userData);
+    if (formData.password)
+      userInfo = { ...userData, password: formData.password };
+    else userInfo = userData;
+
+    makeRequest(`/api/v1/user/${param.id}`, 'PATCH', userInfo);
   };
 
   return (
@@ -204,7 +200,7 @@ const EditUser = () => {
                       htmlFor="password"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Password
+                      New Password
                     </label>
                     <input
                       type="password"
@@ -233,13 +229,13 @@ const EditUser = () => {
                       htmlFor="confirm password"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Confirm Password
+                      New Confirm Password
                     </label>
                     <input
                       type="password"
                       {...register('confirmPassword', {
                         validate: (val: string) => {
-                          if (watch('password') != val) {
+                          if (watch('password') !== val) {
                             return 'Your passwords do no match';
                           }
                         }

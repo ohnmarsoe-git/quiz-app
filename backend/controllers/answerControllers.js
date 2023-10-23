@@ -1,5 +1,4 @@
 import { Answers } from '../models/Answers.js';
-import { User } from '../models/User.js';
 import * as services from '../services/services.js'
 import * as Answerservice from '../services/answerService.js';
 import { handleErrors } from '../utils/handleErrors.js';
@@ -20,6 +19,23 @@ const getAllAns = async (req, res) => {
 
   try{
     const data = await Answerservice.getAllAnswers(limit);
+    res.status(200).json({status: "success", data});
+  } catch (errors) {
+    const error = handleErrors(errors);
+    res.status(500).send({ errors: error })
+  } 
+}
+
+const getByUser = async (req, res) => {
+
+  if(
+    !req.params.id
+  ) {
+    return;
+  }
+
+  try{
+    const data = await Answerservice.getByUserId({user: req.params.id});
     res.status(200).json({status: "success", data});
   } catch (errors) {
     console.log(errors);
@@ -54,13 +70,17 @@ const createNew = async (req, res) => {
     return;
   }
 
+  let renew = new Date();
+  renew.setMonth(renew.getMonth() + 3);
+
   const addRecord = {
     user: req.body.user,
     category: req.body.category,
     question: req.body.question,
     score: req.body.score,
     createdAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
-    updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" })
+    renewDate: renew.toDateString("en-US", { timeZone: "UTC" }),
+    updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
   }
 
   try {
@@ -119,6 +139,7 @@ const deleteOne = async (req, res) => {
 export  {
   getAll,
   getAllAns,
+  getByUser,
   getOne,
   createNew,
   updateOne,

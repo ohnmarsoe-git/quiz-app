@@ -45,6 +45,8 @@ const BASEAPI = () => {
                 'Bearer ' + res.data.refreshToken;
               loginDispatch({
                 id: res.data.id,
+                firstName: res.data.firstName,
+                lastName: res.data.lastName,
                 email: res.data.email,
                 role: res.data.role,
                 authToken: res.data.accessToken,

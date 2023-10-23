@@ -21,6 +21,8 @@ const useLogin = () => {
         if (res.status === 200) {
           loginDispatch({
             id: res.data.id,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
             email: res.data.email,
             role: res.data.role,
             authToken: res.data.accessToken,
@@ -42,6 +44,8 @@ const useLogin = () => {
           if (res.status === 200) {
             loginDispatch({
               id: res.data.id,
+              firstName: res.data.firstName,
+              lastName: res.data.lastName,
               email: res.data.email,
               role: 'user',
               authToken: res.data.accessToken,
@@ -67,6 +71,8 @@ const useLogin = () => {
           if (res.status === 200) {
             loginDispatch({
               id: res.data.id,
+              firstName: res.data.firstName,
+              lastName: res.data.lastName,
               email: res.data.email,
               role: res.data.role,
               authToken: res.data.accessToken,

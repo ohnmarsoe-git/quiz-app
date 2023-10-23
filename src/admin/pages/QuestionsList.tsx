@@ -1,29 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import useCommonApi from '../../hooks/useCommonApi';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Questions } from '../../types/types';
+import useCommonApi from '../../hooks/useCommonApi';
+import BASEAPI from '../../API/config';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import SearchFilter from '../components/SearchFilter';
 import QuestionLists from '../components/QuestionLists';
 import CategorySelect from '../components/CategorySelect';
-import BASEAPI from '../../API/config';
 
 type Props = {};
 
-interface Questions {
-  _id: string;
-  question: string;
-  category: string;
-  level: string;
-  answers: string[];
-  correct_answer: string;
-}
-
-const Questions: React.FC<Props> = ({}) => {
+const QuestionsList: React.FC<Props> = () => {
   const api: any = BASEAPI();
 
-  const { data, isLoading, error, makeRequest } =
+  const { data, isLoading, makeRequest } =
     useCommonApi<Questions>('/api/v1/quiz');
 
   const [keyword, setKeyword] = useState();
@@ -188,4 +179,4 @@ const Questions: React.FC<Props> = ({}) => {
   );
 };
 
-export default Questions;
+export default QuestionsList;

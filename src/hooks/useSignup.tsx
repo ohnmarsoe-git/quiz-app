@@ -15,8 +15,6 @@ const useSignup = () => {
 
   const navigate = useNavigate();
 
-  // const { loginDispatch } = useContext(AuthContext);
-
   const [formData, setFormData] = useState<Props>({
     firstName: '',
     lastName: '',
@@ -27,16 +25,7 @@ const useSignup = () => {
 
   const [errorshook, setErrorsHook] = useState(null);
 
-  // const onFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-
-  //   let value: typeof formData[keyof typeof formData] = event.target.value;
-
-  //   setFormData({...formData, [event.target.id]: value });
-  // }
-
   const onSubmit = (data: any) => {
-    // e.preventDefault();
-
     try {
       api
         .post(`/register`, JSON.stringify(data))

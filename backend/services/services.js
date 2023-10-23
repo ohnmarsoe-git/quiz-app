@@ -8,6 +8,11 @@ const getCount = async (modelName) => {
   return allResults;
 }
 
+const getUser = async (modelName, id) => {
+  const result = await modelName.findById(id).select("-password").exec();
+  return result;
+}
+
 const getOne = async (modelName, id) => {
   const result = await modelName.findById(id).exec();
   return result;
@@ -44,6 +49,7 @@ const deleteOne = (modelName, id) => {
 export {
   getAll,
   getCount,
+  getUser,
   getOne,
   createNew,
   updateOne,

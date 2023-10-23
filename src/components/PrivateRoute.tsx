@@ -4,18 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRoute = () => {
   const { authState } = useContext(AuthContext);
-
-  return authState.isAuth ? (
-    <Outlet />
-  ) : (
-    <>
-      {authState.role === 'user' ? (
-        <Navigate to="/login" />
-      ) : (
-        <Navigate to="/admin/login" />
-      )}
-    </>
-  );
+  return authState.isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

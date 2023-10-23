@@ -16,6 +16,10 @@ const answersSchemea = new mongoose.Schema({
     type: Date,
     require: true
   },
+  renewDate: {
+    type: Date,
+    require: true
+  },
   updatedAt: {
     type: Date,
     require: true

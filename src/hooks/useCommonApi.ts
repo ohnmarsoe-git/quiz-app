@@ -26,13 +26,15 @@ const useCommonApi = <T>(url: string, method?: string, body?: any) => {
           const res = await response.data?.data;
           setData(res);
         } else {
-          const response = await api.get(url);
-          if (params) {
-            const data = await response.data?.data;
-            setData(data);
-          } else {
-            const data = await response.data?.data.reverse();
-            setData(data);
+          if (url) {
+            const response = await api.get(url);
+            if (params) {
+              const data = await response.data?.data;
+              setData(data);
+            } else {
+              const data = await response.data?.data.reverse();
+              setData(data);
+            }
           }
         }
         SetIsLoading(false);

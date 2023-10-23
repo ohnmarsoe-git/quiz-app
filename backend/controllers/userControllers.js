@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { User } from '../models/User.js';
 import * as services from '../services/services.js'
 import { handleErrors } from '../utils/handleErrors.js';
@@ -21,7 +22,7 @@ const getOne = async (req, res) => {
   }
 
   try {
-    const result = await services.getOne( User,req.params.id);
+    const result = await services.getUser( User,req.params.id);
     res.status(200).send({status: "success", data: result});
   } catch(errors) {
     const error = handleErrors(errors);
@@ -37,7 +38,10 @@ const updateOne = async (req, res) => {
     return;
   }
 
-  const updateNew = req.body;
+  const salt = await bcrypt.genSalt();
+  const password = await bcrypt.hash(req.body.password, salt);
+
+  const updateNew = {...req.body, password};
   
   try {
     const result = await services.updateOne(User, req.params.id, updateNew);
@@ -63,7 +67,6 @@ const deleteOne = async (req, res) => {
       res.status(200).send({status: "OK", data: results });
     }
   } catch (errors) {
-    console.log(errors);
     const error = handleErrors(errors);
     res.status(500).send({ errors: error })
   }

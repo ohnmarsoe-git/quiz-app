@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { redirect, useLocation } from 'react-router-dom';
-import BASEAPI from '../../API/config';
-import AuthContext from '../../context/authProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BASEAPI from '../API/config';
+import AuthContext from '../context/authProvider';
 
-type Props = {};
+const Logout = () => {
+  const api: any = BASEAPI();
 
-const Logout = ({}: Props) => {
   const { authState, authAdminState, logoutDispatch } = useContext(AuthContext);
 
   const { authToken } = authState;
@@ -14,7 +14,7 @@ const Logout = ({}: Props) => {
 
   const location = useLocation();
 
-  const api: any = BASEAPI();
+  const navigate = useNavigate();
 
   const requestHandle = (token: any, page: string) => {
     api
@@ -23,10 +23,11 @@ const Logout = ({}: Props) => {
         if (res.status === 200) {
           delete api.defaults.headers.common['Authorization'];
           logoutDispatch(page);
+
           if (page === 'admin') {
-            return redirect('/admin/login');
+            return navigate('/admin/login');
           } else {
-            return redirect('/login');
+            return navigate('/login');
           }
         }
       })
@@ -34,9 +35,9 @@ const Logout = ({}: Props) => {
         if (error.response) {
           logoutDispatch(page);
           if (page === 'admin') {
-            return redirect('/admin/login');
+            return navigate('/admin/login');
           } else {
-            return redirect('/login');
+            return navigate('/login');
           }
         }
       });

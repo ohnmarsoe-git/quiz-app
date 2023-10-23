@@ -6,11 +6,9 @@ const userSchemea = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, 'Please enter your first Name'],
-    lowercase: true
   },
   lastName: {
     type: String,
-    lowercase: true
   },
   email: {
     type: String,

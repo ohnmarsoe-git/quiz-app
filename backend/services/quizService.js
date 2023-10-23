@@ -1,4 +1,5 @@
 import { Quiz } from '../models/Quiz.js';
+import { Category } from '../models/Category.js';
 
 const getAll = async () => {
   const allResults = await Quiz.find().populate('category').exec();
@@ -10,8 +11,25 @@ const getCount = async () => {
   return allResults;
 }
 
-const getByCategory = async (cat) => {
-  const allResults = await Quiz.find({category: "65017f1f25b9202e7a5b3ab5"}).exec();
+const getByCategory = async () => {
+  const allResults = await Quiz.aggregate([
+    {
+      $group: {
+        _id: "$category",
+        count: { $count: {} }
+      },
+    },
+    { $lookup: 
+      {
+        from: 'categories', 
+        localField: '_id', 
+        foreignField:'_id', 
+        as: 'category'
+      }
+    }
+
+  ]).exec();
+
   return allResults;
 }
 

@@ -1,9 +1,8 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import useSignup from '../../hooks/useSignup';
 
 const AddUser = () => {
-  const { errorshook, onSubmit } = useSignup();
+  const { onSubmit } = useSignup();
 
   const {
     register,
@@ -196,7 +195,7 @@ const AddUser = () => {
                   {...register('confirmPassword', {
                     required: true,
                     validate: (val: string) => {
-                      if (watch('password') != val) {
+                      if (watch('password') !== val) {
                         return 'Your passwords do no match';
                       }
                     }

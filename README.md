@@ -25,15 +25,31 @@ The frontend will include the following react hooks:
 
 The quiz app will include the following features:
 
-- User accounts: Users can create accounts to track their progress and compete with others.
+- User Account: Users can create accounts to track their progress and compete with others.
 - Socail Login: User can easily create accounts with Socail Login (Google, Github)
+- User Account Setting: Users can create new password and chnage informaition.
 - Quiz selection: Users can browse and select quizzes from a variety of topics.
-- Question types: The app will support a variety of question types, such as multiple choice, true/false, fill-in-the-blank, and short answer. (Not finish yet)
 - Quiz timer: Some quizzes may include a timer to challenge users to complete the quiz in a certain amount of time.
 - Scoring and feedback: The app will provide users with their score and feedback on their answers.
 
 # Admin View Panel
 
 - Leaderboards: The app may include leaderboards so that users can compete with each other for the highest score.
-- Quiz lists: Administartor can browse all of quizs and then administrator can CREATE, READ, UPDATE and DELETE of quiz
+- Quiz lists: Administartor can browse all of quizzes and then administrator can CREATE, READ, UPDATE and DELETE of quiz
 - Filter: Can filter quiz with cateogory and level
+
+# How to Run Local Environment
+
+### Run Backend Server
+
+```
+$ cd backend
+$ yarn start
+```
+
+### Run Frontend
+
+```
+$ cd quiz-app
+$ yarn start
+```

@@ -1,29 +1,31 @@
 import React, { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Quiz from '../components/Quiz';
-import Login from './Login';
-import SignIn from './SignIn';
 import AuthContext from '../context/authProvider';
 import PrivateRoute from '../components/PrivateRoute';
-import NotFound from './NotFound';
+import Navbar from '../components/Navbar';
+import NotFound from '../components/NotFound';
+import Quiz from './Quiz';
+import Login from './Login';
+import SignIn from './SignIn';
+import Main from './Main';
+import Settings from './Settings';
+import Results from './Results';
 
-type Props = {};
-
-function Layout({}: Props) {
+const Layout = () => {
   const { authState } = useContext(AuthContext);
 
   return (
     <>
-      {authState.isAuth && authState.role === 'user' && (
-        <Navbar email={authState.email} />
-      )}
+      {authState.isAuth && <Navbar />}
 
       <Routes>
         {authState.isAuth && authState.role === 'user' ? (
           <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Quiz />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/quiz" element={<Main />} />
+            <Route path="/quiz/:id" element={<Quiz />} />
+            <Route path="/account" element={<Settings />} />
+            <Route path="/results" element={<Results />} />
             <Route path="*" element={<NotFound />}></Route>
           </Route>
         ) : (
@@ -37,6 +39,6 @@ function Layout({}: Props) {
       </Routes>
     </>
   );
-}
+};
 
 export default Layout;

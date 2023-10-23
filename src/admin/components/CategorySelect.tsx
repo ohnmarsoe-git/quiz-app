@@ -1,13 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BASEAPI from '../../API/config';
-
-type Props = {};
-
-interface Category {
-  _id: string;
-  category: string;
-  __v?: number;
-}
 
 const CategorySelect = (props: any) => {
   const api: any = BASEAPI();
@@ -23,21 +15,11 @@ const CategorySelect = (props: any) => {
 
   useEffect(() => {
     getCategories();
+    // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      {/* {<Controller
-        name="category"
-        control={methods.control}
-        render={({field}) => (
-          <Select
-            options={categories}
-            {...field}
-            onChange={(e) => console.log(e)}
-            />
-        )} 
-        />} */}
       {
         <select
           {...props.register('category', { required: true })}

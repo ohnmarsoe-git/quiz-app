@@ -1,16 +1,7 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import Select from 'react-select';
+import { Questions } from '../../types/types';
 import useCommonApi from '../../hooks/useCommonApi';
 import CategorySelect from '../components/CategorySelect';
-
-interface Questions {
-  message?: any;
-  question: string;
-  level: string;
-  answers: string[];
-  correct_answer: string;
-}
 
 const AddQuestion = () => {
   const { error, makeRequest } = useCommonApi<Questions>('/api/v1/quiz');

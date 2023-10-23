@@ -15,6 +15,8 @@ export interface AuthContextProviderProps {
 
 export type UserData = {
   id: string;
+  firstName: string;
+  lastName: string;
   email: string;
   role: string;
   authToken: string;
@@ -84,7 +86,7 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
       }
     }
 
-    //react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
   // check JWT token
@@ -97,13 +99,18 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
 
   const loginDispatch = useCallback(
     (props: UserData) => {
-      const { id, email, role, authToken, refreshToken } = props;
+      const { id, firstName, lastName, email, role, authToken, refreshToken } =
+        props;
+
+      console.log(props);
 
       if (role === 'user') {
         setAuthState({
           type: AuthActionEnum.LOG_IN,
           payload: {
             id,
+            firstName,
+            lastName,
             email,
             role,
             authToken,
@@ -127,28 +134,6 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
 
         navigate('/admin/dashboard');
       }
-
-      // localStorage.setItem(
-      //   'user',
-      //   JSON.stringify({
-      //     isAuth: true,
-      //     email: email,
-      //     role: role,
-      //     authToken: authToken,
-      //     refreshToken: refreshToken
-      //   })
-      // );
-
-      // setCookies(
-      //   'user',
-      //   JSON.stringify({
-      //     isAuth: true,
-      //     email: email,
-      //     role: role,
-      //     authToken: authToken,
-      //     refreshToken: refreshToken
-      //   })
-      // );
     },
     [navigate]
   );
@@ -170,6 +155,15 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
       }
 
       if (page === 'user') {
+        //@ts-ignore
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+          setAuthState({
+            type: AuthActionEnum.LOG_OUT,
+            payload: null
+          });
+          navigate('/login');
+        }
       }
     },
     [navigate]

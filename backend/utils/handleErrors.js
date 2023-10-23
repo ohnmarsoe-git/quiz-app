@@ -1,6 +1,4 @@
 export const handleErrors = (err) => {
-
-  console.log(err);
   
   let errors = { email: '', password: '', message: '', error: '' }
 

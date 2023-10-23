@@ -1,9 +1,7 @@
 import { useContext, PropsWithChildren, useState } from 'react';
 import AuthContext from '../../context/authProvider';
 import { Link } from 'react-router-dom';
-import Logout from './Logout';
-
-export interface Props {}
+import Logout from '../../components/Logout';
 
 const MainLayout = ({ children }: PropsWithChildren) => {
   const { authAdminState } = useContext(AuthContext);
@@ -164,13 +162,13 @@ const MainLayout = ({ children }: PropsWithChildren) => {
                           </Link>
                         </li>
                         <li>
-                          <a
-                            href="#"
+                          <Link
+                            to="#"
                             className="p-2 hover:bg-gray-700 flex items-center"
                           >
                             <i className="fas fa-chevron-right mr-2 text-xs" />
                             Settings
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>
@@ -185,22 +183,22 @@ const MainLayout = ({ children }: PropsWithChildren) => {
                       </div>
                       <ul className="desplegable ml-4 hidden">
                         <li>
-                          <a
-                            href="#"
+                          <Link
+                            to="#"
                             className="block p-2 hover:bg-gray-700 flex items-center"
                           >
                             <i className="fas fa-chevron-right mr-2 text-xs" />
                             Firmas pendientes
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a
-                            href="#"
+                          <Link
+                            to="#"
                             className="block p-2 hover:bg-gray-700 flex items-center"
                           >
                             <i className="fas fa-chevron-right mr-2 text-xs" />
                             Documentos
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>

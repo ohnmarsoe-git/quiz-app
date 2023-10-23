@@ -1,90 +1,15 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import useLogin from "../../hooks/useLogin";
+import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import useLogin from '../../hooks/useLogin';
 
-type Props = {};
-
-// export type AuthData = {
-//   success: boolean,
-//   user: {
-//     email: string,
-//     role: string,
-//     refreshToken: string;
-//     accessToken: string,
-//   },
-// };
-
-const Login = ({}: Props) => {
+const Login = () => {
   const { onerrors, onSubmit } = useLogin();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
-
-  // const api:any = BASEAPI();
-
-  // const [formData, setFormData] = useState({
-  //   email: '',
-  //   password: ''
-  // });
-
-  // const [errors, setErrors] = useState({
-  //   email: '',
-  //   password: ''
-  // })
-
-  // useEffect(() => {
-  //   if(authData) {
-  //     loginDispatch({
-  //       email: authData.user.email,
-  //       role: authData.user.role,
-  //       authToken: authData.user.accessToken,
-  //       refreshToken: authData.user.refreshToken
-
-  //     })
-  //   }
-  // }, [authData, loginDispatch])
-
-  // const onFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
-
-  //   let value: typeof formData[keyof typeof formData] = event.target.value;
-
-  //   setFormData({...formData, [event.target.id]: value });
-  // }
-
-  // const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   try{
-  //     api.post(`/login`, JSON.stringify(formData)).
-  //     then( (res:any) => {
-
-  //         if(res.data.errors) {
-  //           setErrors(res.data.errors)
-  //         }
-
-  //         if(res.data.user) {
-
-  //           loginDispatch({
-  //             email: res.data.user.email,
-  //             role: res.data.role,
-  //             authToken: res.data.accessToken,
-  //             refreshToken: res.data.refreshToken
-  //           })
-  //         }
-
-  //         setFormData({
-  //           email: '',
-  //           password: ''
-  //         })
-
-  //       }
-  //     )
-  //   } catch(err) {
-  //     console.log(err);
-  //   }
-  // }
 
   return (
     <>
@@ -110,12 +35,12 @@ const Login = ({}: Props) => {
                   <input
                     type="email"
                     id="email"
-                    {...register("email", {
+                    {...register('email', {
                       required: true,
                       pattern: {
                         value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                        message: "Email is not valid.",
-                      },
+                        message: 'Email is not valid.'
+                      }
                     })}
                     className="bg-gray-50 border 
                              border-gray-300 
@@ -129,12 +54,12 @@ const Login = ({}: Props) => {
                     placeholder="name@company.com"
                     required
                   />
-                  {errors.email?.type === "required" && (
+                  {errors.email?.type === 'required' && (
                     <p className="text-red-500 text-sm mt-1" role="alert">
                       Email Address is required
                     </p>
                   )}
-                  {errors.email?.type === "pattern" && (
+                  {errors.email?.type === 'pattern' && (
                     <p className="text-red-500 text-sm mt-1" role="alert">
                       Email is not valid
                     </p>
@@ -155,22 +80,22 @@ const Login = ({}: Props) => {
                   <input
                     type="password"
                     id="password"
-                    {...register("password", {
+                    {...register('password', {
                       required: true,
-                      minLength: 6,
+                      minLength: 6
                     })}
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />
 
-                  {errors.password && errors.password.type === "required" && (
+                  {errors.password && errors.password.type === 'required' && (
                     <p className="text-red-500 text-sm mt-1">
                       Password is required.
                     </p>
                   )}
 
-                  {errors.password && errors.password.type === "minLength" && (
+                  {errors.password && errors.password.type === 'minLength' && (
                     <p className="text-red-500 text-sm mt-1">
                       Password should be at-least 6 characters.
                     </p>
@@ -191,12 +116,12 @@ const Login = ({}: Props) => {
                                  <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
                                  </div> */}
                   </div>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <button
                   type="submit"

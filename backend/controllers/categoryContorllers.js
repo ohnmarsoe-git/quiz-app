@@ -53,7 +53,6 @@ const createNew = async (req, res) => {
 }
 
 const updateOne = async (req, res) => {
-  console.log("update")
   if(
     !req.params.id
   ) {

@@ -1,23 +1,13 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { Questions } from '../../types/types';
 import useCommonApi from '../../hooks/useCommonApi';
 import CategorySelect from '../components/CategorySelect';
 
-type Props = {};
-
-interface Questions {
-  message?: any;
-  question: string;
-  level: string;
-  answers: string[];
-  correct_answer: string;
-}
-
-const EditQuestion = (props: Props) => {
+const EditQuestion = () => {
   const param = useParams();
 
-  const { data, isLoading, error, makeRequest } = useCommonApi<Questions>(
+  const { data, error, makeRequest } = useCommonApi<Questions>(
     `/api/v1/quiz/${param.id}`,
     'GET',
     param.id

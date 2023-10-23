@@ -1,12 +1,6 @@
-import React from 'react';
+import { Category } from '../../types/types';
 import { useForm } from 'react-hook-form';
 import useCommonApi from '../../hooks/useCommonApi';
-
-interface Category {
-  _id: string;
-  category: string;
-  __v?: number;
-}
 
 const CategoryForm = (defaultValues: any) => {
   const {
