@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
+mongoose.set("strictQuery", false);
+
 const connection = () => {
   const connectionParmas = {
     useNewUrlParser: true,
