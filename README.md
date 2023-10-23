@@ -47,6 +47,8 @@ $ cd backend
 $ yarn start
 ```
 
+![Optional Text](./dashboard.png)
+
 ### Run Frontend
 
 ```
