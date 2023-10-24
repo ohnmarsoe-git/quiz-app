@@ -6,23 +6,6 @@ This project is to build a quiz app using the MERN stack, which consists of Mong
 
 The backend of the app will be built using Node.js and Express.js. It will expose a REST API that the frontend can use to interact with the database. The backend will also be responsible for handling user authentication and authorization.
 
-# Database
-
-The app will use MongoDB as its database. MongoDB is a NoSQL database that is well suited for storing and retrieving JSON data.
-
-# Frontend
-
-The frontend of the app will be built using React.js. React.js is a JavaScript library for building user interfaces. It is known for its speed, flexibility, and ease of use.
-
-# Functionality
-
-- Socail Login (GitHub, Google)
-- Authenication and Authorization with JWT Web Token
-- State management with React Context API
-- Fetching API with React Custom hook (CommonApi)
-- Login and Sigin fetch with React Custom hooks ( Login, Signup)
-- Utilize Tailwind Css
-
 # Features
 
 # Client View
@@ -38,9 +21,42 @@ The quiz app will include the following features:
 
 # Admin View Panel
 
-- Leaderboards: The app may include leaderboards so that users can compete with each other for the highest score.
-- Quiz lists: Administartor can browse all of quizzes and then administrator can CREATE, READ, UPDATE and DELETE of quiz
+- Dashboard: Dashboard will show total users, total questions, total canditates and latest canditates information.
+- Quiz lists: Administartor can browse all of quizzes and then administrator can CREATE, READ, UPDATE and DELETE of quiz.
+- Categores: Administartor can browse all of categories and then can CREATE, READ, UPDATE and DELETE of categories.
+- Users: Administartor can see all of users informations.
 - Filter: Can filter quiz with cateogory and level
+
+# Functionality
+
+- Socail Login (GitHub, Google)
+- Authenication and Authorization with JWT Web Token
+- State management with React Context API
+- Fetching API with React Custom hook (CommonApi)
+- Login and Signin fetch with React Custom hooks ( Login, Signup)
+- Edit User Information
+- Protected Routes
+
+# Tech Used
+
+## Frontend
+
+- React
+- React Router V6
+- React-hook-form
+- Typescript
+- Axios
+- Tailwind CSS
+
+## Backend
+
+- Node.js
+- Express.js
+- MONGODB
+- JWT Token
+- BCRYPTJS
+
+Icons - Fonts Awesome
 
 # How to Run Local Environment
 
