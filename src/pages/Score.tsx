@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 type Props = {
   mark: number;
   totalQuestion: number;
@@ -13,10 +11,6 @@ const Score: React.FC<Props> = ({ mark, totalQuestion }) => {
       return 'Congrats!';
     }
   };
-
-  useEffect(() => {
-    scroeCal();
-  }, []);
 
   return (
     <div className="mx-auto mt-5 mb-10">

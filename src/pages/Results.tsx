@@ -11,25 +11,26 @@ const Results = () => {
   const [loading, setLoaing] = useState(true);
   const [answers, setAnswers] = useState([]);
 
-  const getAnswerResults = async () => {
-    try {
-      const response = await api.get(`/api/v1/answers/history/${authState.id}`);
-      const res = response?.data.data;
-      console.log(res);
-      setAnswers(res);
-      setLoaing(false);
-    } catch (error) {
-      const err = error as AxiosError;
-      //@ts-ignore
-      if (err.response?.data && err.response?.data.data === 'jwt expired') {
-        logoutDispatch('user');
-      }
-    }
-  };
-
   useEffect(() => {
+    const getAnswerResults = async () => {
+      try {
+        const response = await api.get(
+          `/api/v1/answers/history/${authState.id}`
+        );
+        const res = response?.data.data;
+        console.log(res);
+        setAnswers(res);
+        setLoaing(false);
+      } catch (error) {
+        const err = error as AxiosError;
+        //@ts-ignore
+        if (err.response?.data && err.response?.data.data === 'jwt expired') {
+          logoutDispatch('user');
+        }
+      }
+    };
     getAnswerResults();
-  }, []);
+  }, [api, authState, logoutDispatch]);
 
   console.log(answers);
 

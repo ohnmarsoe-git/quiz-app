@@ -45,11 +45,13 @@ const useCommonApi = <T>(url: string, method?: string, body?: any) => {
         }
       }
     },
+    // eslint-disable-next-line
     [url, method, body]
   );
 
   useEffect(() => {
     makeRequest(url, method, body);
+    // eslint-disable-next-line
   }, [url, method, body]);
 
   return {

@@ -17,24 +17,24 @@ const Dashboard = () => {
 
   const api: any = BASEAPI();
 
-  const getAll = async () => {
-    try {
-      const response = await api.get('/api/v1/dashboard/');
-      const res = response?.data.data;
-      setAnswers(res);
-      setLoaing(false);
-    } catch (error) {
-      const err = error as AxiosError;
-      //@ts-ignore
-      if (err.response?.data && err.response?.data.data === 'jwt expired') {
-        logoutDispatch('admin');
-      }
-    }
-  };
-
   useEffect(() => {
+    const getAll = async () => {
+      try {
+        const response = await api.get('/api/v1/dashboard/');
+        const res = response?.data.data;
+        setAnswers(res);
+        setLoaing(false);
+      } catch (error) {
+        const err = error as AxiosError;
+        //@ts-ignore
+        if (err.response?.data && err.response?.data.data === 'jwt expired') {
+          logoutDispatch('admin');
+        }
+      }
+    };
+
     getAll();
-  }, []);
+  }, [api, logoutDispatch]);
 
   if (loading) return <div>loading ....</div>;
 

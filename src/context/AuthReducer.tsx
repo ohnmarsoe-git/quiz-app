@@ -1,6 +1,5 @@
 import { Reducer } from 'react';
 import { AuthAction } from './authActions';
-import { useCookies } from 'react-cookie';
 
 export interface AuthState {
   isAuth: boolean;

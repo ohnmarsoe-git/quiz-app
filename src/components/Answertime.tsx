@@ -16,6 +16,7 @@ const Answertime: React.FC<Props> = ({ duration, onTimeUp }) => {
     }, 1000);
 
     return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const Answertime: React.FC<Props> = ({ duration, onTimeUp }) => {
         onTimeUp();
       }, 1000);
     }
+    // eslint-disable-next-line
   }, [counter]);
 
   return (
