@@ -13,13 +13,17 @@ The app will use MongoDB as its database. MongoDB is a NoSQL database that is we
 # Frontend
 
 The frontend of the app will be built using React.js. React.js is a JavaScript library for building user interfaces. It is known for its speed, flexibility, and ease of use.
-The frontend will include the following react hooks:
 
-- React Context API
-- React Reducer
-- React Custom Hook
+# Functionality
 
-# Functionality & Features
+- Socail Login (GitHub, Google)
+- Authenication and Authorization with JWT Web Token
+- State management with React Context API
+- Fetching API with React Custom hook (CommonApi)
+- Login and Sigin fetch with React Custom hooks ( Login, Signup)
+- Utilize Tailwind Css
+
+# Features
 
 # Client View
 
@@ -27,7 +31,7 @@ The quiz app will include the following features:
 
 - User Account: Users can create accounts to track their progress and compete with others.
 - Socail Login: User can easily create accounts with Socail Login (Google, Github)
-- User Account Setting: Users can create new password and chnage informaition.
+- User Account Setting: Users can create new password and change informaition.
 - Quiz selection: Users can browse and select quizzes from a variety of topics.
 - Quiz timer: Some quizzes may include a timer to challenge users to complete the quiz in a certain amount of time.
 - Scoring and feedback: The app will provide users with their score and feedback on their answers.
