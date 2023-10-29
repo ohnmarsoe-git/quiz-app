@@ -102,8 +102,6 @@ export const AuthProvider: React.FC<AuthContextProviderProps> = ({
       const { id, firstName, lastName, email, role, authToken, refreshToken } =
         props;
 
-      console.log(props);
-
       if (role === 'user') {
         setAuthState({
           type: AuthActionEnum.LOG_IN,
