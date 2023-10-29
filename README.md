@@ -4,6 +4,8 @@ This project is to build a quiz app using the MERN stack, which consists of Mong
 
 # Web URL
 https://quiz-app-react-23.netlify.app/
+# Admin Dashboard URL
+https://quiz-app-react-23.netlify.app/admin/
 
 # Backend
 
